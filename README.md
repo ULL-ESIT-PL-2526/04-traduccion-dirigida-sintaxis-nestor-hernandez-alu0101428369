@@ -49,4 +49,5 @@ En cambio, devolver un token significa que el analizador reconoce un patrón y l
 ### Explique cuándo se devuelve EOF.
 - ```EOF``` se devuelve cuando el analizador léxico alcanza el final de la entrada y ya no quedan más caracteres por leer.
 
-
+### Explique por qué existe la regla . que devuelve INVALID.
+- El ```.``` significa cualquier caracter que no haya sido reconocido por las reglas anteriores.
