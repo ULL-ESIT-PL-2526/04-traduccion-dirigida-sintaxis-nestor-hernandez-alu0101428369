@@ -46,4 +46,7 @@ En cambio, devolver un token significa que el analizador reconoce un patrón y l
 ### Indique por qué ** debe aparecer antes que [-+*/].
 - ```**``` debe aparecer antes que ```[-+*/]``` porque el analizador léxico evalúa las reglas en orden y, si ```[-+*/]``` aparece primero, el operador ```**``` sería reconocido como dos tokens ```*``` en lugar de un único token ```**```.
 
+### Explique cuándo se devuelve EOF.
+- ```EOF``` se devuelve cuando el analizador léxico alcanza el final de la entrada y ya no quedan más caracteres por leer.
+
 
