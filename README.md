@@ -51,3 +51,10 @@ En cambio, devolver un token significa que el analizador reconoce un patrón y l
 
 ### Explique por qué existe la regla . que devuelve INVALID.
 - El ```.``` significa cualquier caracter que no haya sido reconocido por las reglas anteriores.
+
+## Modifique el analizador léxico de grammar.jison para que se salte los comentarios de una línea que empiezan por //.
+- He añadido a mi grammar.json la siguiente linea:
+
+    ```"//"[^\n]*   { /* skip single-line comment */ }```
+
+  Lo que hace es que lo que empieza por ```//``` seguido de cualquier cosa que no sea un salto de linea, lo ignora.
