@@ -1,35 +1,3 @@
-# Syntax Directed Translation with Jison
-
-Jison is a tool that receives as input a Syntax Directed Translation and produces as output a JavaScript parser  that executes
-the semantic actions in a bottom up ortraversing of the parse tree.
- 
-
-## Compile the grammar to a parser
-
-See file [grammar.jison](./src/grammar.jison) for the grammar specification. To compile it to a parser, run the following command in the terminal:
-``` 
-➜  jison git:(main) ✗ npx jison grammar.jison -o parser.js
-```
-
-## Use the parser
-
-After compiling the grammar to a parser, you can use it in your JavaScript code. For example, you can run the following code in a Node.js environment:
-
-```
-➜  jison git:(main) ✗ node                                
-Welcome to Node.js v25.6.0.
-Type ".help" for more information.
-> p = require("./parser.js")
-{
-  parser: { yy: {} },
-  Parser: [Function: Parser],
-  parse: [Function (anonymous)],
-  main: [Function: commonjsMain]
-}
-> p.parse("2*3")
-6
-```
-
 ## Definiciones del lexer
 ### Describa la diferencia entre /* skip whitespace */ y devolver un token.
 - ```/* skip whitespace */``` indica que el analizador léxico reconoce los espacios en blanco pero los ignora, es decir, no genera ningún token para ellos.
@@ -68,3 +36,32 @@ En cambio, devolver un token significa que el analizador reconoce un patrón y l
     ```([0-9]+(\.[0-9]+)?([eE][+-]?[0-9]+)?)   { return 'NUMBER'; }```
     
     Gracias a esa ampliación de la expresión regular, puede leer numeros en punto flotante en todas las formas posibles.
+
+## Añada pruebas para las modificaciones del analizador léxico de grammar.jison.
+- He añadido dos pruebas una para los comentarios de una linea y otra para los numeros en punto flotante
+  ```
+  describe('Comment one line tests', () => {
+      test('should ignore comments', () => {
+        expect(parse("// This is a comment")).toBe(null);
+        expect(parse("10 // Another comment")).toBe(10);
+        expect(parse("7 - 5 - 1 // Comment here")).toBe(1);
+        expect(parse("3 + 5.4e+1 // Adding two numbers")).toBe(57);
+        expect(parse("2**3 // Ignore this 2+3")).toBe(8);
+      });
+    });
+
+    describe('Number floating point tests', () => {
+      test('should handle floating point numbers', () => {
+        expect(parse("3.14")).toBe(3.14);
+        expect(parse("0.001")).toBe(0.001);
+        expect(parse("2.5 + 1.5")).toBe(4);
+        expect(parse("5.5 * 2")).toBe(11);
+        expect(parse("10 / 4")).toBe(2.5);
+        expect(parse("2.5e-3")).toBe(0.0025);
+        expect(parse("1.2e+3")).toBe(1200);
+        expect(parse("1.2E-3")).toBe(0.0012);
+        expect(parse("1.2E+8")).toBe(120000000);
+        expect(parse("2.4e+3/2.4e+3")).toBe(1);
+      });
+    });
+  ```
