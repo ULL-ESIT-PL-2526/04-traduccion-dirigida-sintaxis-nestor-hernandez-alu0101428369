@@ -105,12 +105,10 @@ describe('Parser Tests', () => {
   describe('Input validation and error cases', () => {
     test('should handle invalid input gracefully', () => {
       // These should throw errors or be handled by the parser
-      expect(() => parse("")).toThrow();
       expect(() => parse("abc")).toThrow();
       expect(() => parse("3 +")).toThrow();
       expect(() => parse("+ 3")).toThrow();
       expect(() => parse("3 + + 4")).toThrow();
-      expect(() => parse("3.5")).toThrow(); // Only integers are supported
     });
 
     test('should handle incomplete expressions', () => {
@@ -128,4 +126,28 @@ describe('Parser Tests', () => {
     });
   });
 
+  describe('Comment one line tests', () => {
+    test('should ignore comments', () => {
+      expect(parse("// This is a comment")).toBe(null);
+      expect(parse("10 // Another comment")).toBe(10);
+      expect(parse("7 - 5 - 1 // Comment here")).toBe(1);
+      expect(parse("3 + 5.4e+1 // Adding two numbers")).toBe(57);
+      expect(parse("2**3 // Ignore this 2+3")).toBe(8);
+    });
+  });
+
+  describe('Number floating point tests', () => {
+    test('should handle floating point numbers', () => {
+      expect(parse("3.14")).toBe(3.14);
+      expect(parse("0.001")).toBe(0.001);
+      expect(parse("2.5 + 1.5")).toBe(4);
+      expect(parse("5.5 * 2")).toBe(11);
+      expect(parse("10 / 4")).toBe(2.5);
+      expect(parse("2.5e-3")).toBe(0.0025);
+      expect(parse("1.2e+3")).toBe(1200);
+      expect(parse("1.2E-3")).toBe(0.0012);
+      expect(parse("1.2E+8")).toBe(120000000);
+      expect(parse("2.4e+3/2.4e+3")).toBe(1);
+    });
+  });
 });

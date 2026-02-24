@@ -16,7 +16,9 @@
 %%
 
 expressions
-    : expression EOF
+    : /* empty */ EOF
+        {return null; }
+    | expression EOF
         { return $expression; }
     ;
 
