@@ -53,8 +53,18 @@ En cambio, devolver un token significa que el analizador reconoce un patrón y l
 - El ```.``` significa cualquier caracter que no haya sido reconocido por las reglas anteriores.
 
 ## Modifique el analizador léxico de grammar.jison para que se salte los comentarios de una línea que empiezan por //.
-- He añadido a mi grammar.json la siguiente linea:
+  - He añadido a mi grammar.json la siguiente linea:
 
     ```"//"[^\n]*   { /* skip single-line comment */ }```
 
   Lo que hace es que lo que empieza por ```//``` seguido de cualquier cosa que no sea un salto de linea, lo ignora.
+
+## Modifique el analizador léxico de grammar.jison para que reconozca números en punto flotante como 2.35e-3, 2.35e+3, 2.35E-3, 2.35 y 23.
+  - He modificado esta linea de mi grammar.json:
+
+    ```[0-9]+   { return 'NUMBER'; }```
+  - Por la siguiente:
+
+    ```([0-9]+(\.[0-9]+)?([eE][+-]?[0-9]+)?)   { return 'NUMBER'; }```
+    
+    Gracias a esa ampliación de la expresión regular, puede leer numeros en punto flotante en todas las formas posibles.
