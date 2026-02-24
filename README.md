@@ -29,3 +29,16 @@ Type ".help" for more information.
 > p.parse("2*3")
 6
 ```
+
+## Definiciones del lexer
+### Describa la diferencia entre /* skip whitespace */ y devolver un token.
+- /* skip whitespace */ indica que el analizador léxico reconoce los espacios en blanco pero los ignora, es decir, no genera ningún token para ellos.
+En cambio, devolver un token significa que el analizador reconoce un patrón y lo envía al parser como una unidad significativa del lenguaje.
+
+### Escriba la secuencia exacta de tokens producidos para la entrada 123**45+@.
+
+### Indique por qué ** debe aparecer antes que [-+*/].
+
+### Explique cuándo se devuelve EOF.
+
+### Explique por qué existe la regla . que devuelve INVALID.
