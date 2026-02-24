@@ -43,4 +43,7 @@ En cambio, devolver un token significa que el analizador reconoce un patrón y l
 - Token 5: INVALID (@)
 - Token 6: EOF
 
+### Indique por qué ** debe aparecer antes que [-+*/].
+- ```**``` debe aparecer antes que ```[-+*/]``` porque el analizador léxico evalúa las reglas en orden y, si ```[-+*/]``` aparece primero, el operador ```**``` sería reconocido como dos tokens ```*``` en lugar de un único token ```**```.
+
 
