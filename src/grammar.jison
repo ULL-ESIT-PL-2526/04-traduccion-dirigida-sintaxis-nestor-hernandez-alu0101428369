@@ -4,34 +4,53 @@
 \s+                   { /* skip whitespace */; }
 "//"[^\n]*            { /* skip single-line comment */;   }
 ([0-9]+(\.[0-9]+)?([eE][+-][0-9]+)?)           { return 'NUMBER';       }
-"**"                  { return 'OP';           }
-[-+*/]                { return 'OP';           }
+"**"                  { return 'OPOW';         }
+"+"|"-"               { return 'OPAD';         }
+"*"|"/"               { return 'OPMU';         }
+"("                   { return 'LPAREN';       }
+")"                   { return 'RPAREN';       }  
 <<EOF>>               { return 'EOF';          }
 .                     { return 'INVALID';      }
 /lex
 
 /* Parser */
-%start expressions
-%token NUMBER
+%start L
+%token NUMBER OPAD OPMU OPOW LPAREN RPAREN
 %%
 
-expressions
+L
     : /* empty */ EOF
         {return null; }
-    | expression EOF
-        { return $expression; }
+    | E EOF
+        { return $E; }
     ;
 
-expression
-    : expression OP term
-        { $$ = operate($OP, $expression, $term); }
-    | term
-        { $$ = $term; }
+E
+    :E OPAD T
+        { $$ = operate($OPAD, $E, $T); }
+    | T 
+        { $$ = $T; }
     ;
 
-term
+T
+    :T OPMU R
+        { $$ = operate($OPMU, $T, $R); }
+    | R 
+        { $$ = $R; }
+    ;
+
+R
+    :F OPOW R
+        { $$ = operate($OPOW, $F, $R); }
+    | F 
+        { $$ = $F; }
+    ;
+
+F
     : NUMBER
         { $$ = Number(yytext); }
+    | LPAREN E RPAREN
+        { $$ = $E}
     ;
 %%
 
