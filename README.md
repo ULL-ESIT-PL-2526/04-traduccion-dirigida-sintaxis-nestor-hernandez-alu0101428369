@@ -147,3 +147,23 @@ En cambio, devolver un token significa que el analizador reconoce un patrón y l
       7
 ```
 ### ¿En qué orden se evaluan las acciones semánticas para cada una de las frases? Nótese que la evaluación a la que da lugar la sdd para las frases no se corresponde con los convenios de evaluación establecidos en matemáticas y los lenguajes de programación.
+``` 4.0-2.0*3.0```
+1. convert(4.0)
+2. convert(2.0)
+3. operate('-', 4.0, 2.0) → 2.0
+4. convert(3.0)
+5. operate('*', 2.0, 3.0) → 6.0
+
+```2**3**2```
+1. convert(2)
+2. convert(3)
+3. operate('**', 2, 3) → 8
+4. convert(2)
+5. operate('**', 8, 2) → 64
+
+```7-4/2```
+1. convert(7)
+2. convert(4)
+3. operate('-', 7, 4) → 3
+4. convert(2)
+5. operate('/', 3, 2) → 1.5
