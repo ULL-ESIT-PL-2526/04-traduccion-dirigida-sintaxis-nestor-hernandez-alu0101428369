@@ -253,3 +253,29 @@ describe('Parser Failing Tests Floating Point', () => {
     });
 });
 ```
+
+## Reconocer parentesis
+He tenido que crear 2 nuevos tokens y asociarlo a los dos operadores nuevos que he creado y en la regla de producción 'F' he añadido una nueva para que lea los parentesis.
+
+```
+/* Lexer */
+%lex
+%%
+"("                   { return 'LPAREN';       }
+")"                   { return 'RPAREN';       }  
+
+/lex
+
+/* Parser */
+%start L
+%token LPAREN RPAREN
+%%
+
+F
+    : NUMBER
+        { $$ = Number(yytext); }
+    | LPAREN E RPAREN
+        { $$ = $E}
+    ;
+%%
+```
