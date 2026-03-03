@@ -65,3 +65,38 @@ En cambio, devolver un token significa que el analizador reconoce un patrón y l
       });
     });
   ```
+
+## Definiciones del grammar
+### Escriba la derivación para cada una de las frases.
+``` 4.0-2.0*3.0, 2**3**2```
+- L
+- ⇒ E eof
+- ⇒ E op T eof
+- ⇒ E op T op T eof
+ - ⇒ T op T op T eof
+- ⇒ number op T op T eof
+- ⇒ 4.0 op T op T eof
+- ⇒ 4.0 - T op T eof
+- ⇒ 4.0 - number op T eof
+- ⇒ 4.0 - 2.0 op T eof
+- ⇒ 4.0 - 2.0 * T eof
+- ⇒ 4.0 - 2.0 * number eof
+- ⇒ 4.0 - 2.0 * 3.0 eof
+
+```7-4/2```
+- L
+- ⇒ E eof
+- ⇒ E op T eof
+- ⇒ E op T op T eof
+- ⇒ T op T op T eof
+- ⇒ number op T op T eof
+- ⇒ 2 ** T op T eof
+- ⇒ 2 ** number op T eof
+- ⇒ 2 ** 3 ** T eof
+- ⇒ 2 ** 3 ** number eof
+- ⇒ 2 ** 3 ** 2 eof
+
+### Escriba el árbol de análisis sintáctico (parse tree) para cada una de las frases.
+
+
+### ¿En qué orden se evaluan las acciones semánticas para cada una de las frases? Nótese que la evaluación a la que da lugar la sdd para las frases no se corresponde con los convenios de evaluación establecidos en matemáticas y los lenguajes de programación.
