@@ -37,3 +37,4 @@ describe('Parser Failing Tests Parentheses', () => {
         expect(parse("(15 + (4 * 2)) - (2 ** 3)")).toBe(15); // (15 + (4 * 2)) - (2 ** 3) = (15 + 8) - 8 = 23 - 8 = 15  
     });
 });
+
