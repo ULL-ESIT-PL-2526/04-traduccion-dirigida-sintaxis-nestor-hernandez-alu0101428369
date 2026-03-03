@@ -167,3 +167,44 @@ En cambio, devolver un token significa que el analizador reconoce un patrón y l
 3. operate('-', 7, 4) → 3
 4. convert(2)
 5. operate('/', 3, 2) → 1.5
+
+## Modificacion del grammar para respetar la precedencia
+He tenido que añadir 3 nuevos tokens y asociarlo con cada operador y despues hacer nuevas reglas respetando la precedencia por pisos(de abajo hacia arriba).
+
+Esto es solamente lo que he añadido al grammar.
+ 
+```
+/* Lexer */
+%lex
+%%
+"**"                  { return 'OPOW';         }
+"+"|"-"               { return 'OPAD';         }
+"*"|"/"               { return 'OPMU';         }
+/lex
+
+/* Parser */
+%start L
+%token OPAD OPMU OPOW 
+%%
+
+E
+    :E OPAD T
+        { $$ = operate($OPAD, $E, $T); }
+    | T 
+        { $$ = $T; }
+    ;
+
+T
+    :T OPMU R
+        { $$ = operate($OPMU, $T, $R); }
+    | R 
+        { $$ = $R; }
+    ;
+
+R
+    :F OPOW R
+        { $$ = operate($OPOW, $F, $R); }
+    | F 
+        { $$ = $F; }
+    ;
+```
